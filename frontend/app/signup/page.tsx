@@ -65,8 +65,8 @@ const page = () => {
     setErrors({})
   }, [nama, email, password, confirmPassword])
   return (
-      <div className='flex justify-center bg-[url(/bg-image.png)] bg-repeat bg-contain bg-center'>
-        <div className='flex flex-col justify-center items-center gap-20 bg-secondary-50 w-200 h-159 my-10'>
+      <div className='flex justify-center'>
+        <div className='flex flex-col justify-center items-center gap-20 bg-secondary-50 w-200 h-159 my-10 rounded-[8px] border-neutral-gray border-2 shadow-lg'>
           <div className='flex items-center'>
             <Image src="/Logo_nama.png" alt="Logo_nama" width={120} height={120}/>
             <div>
@@ -79,7 +79,7 @@ const page = () => {
             <div className='flex flex-col items-center gap-4'>
               <input 
                 type="text" 
-                placeholder='Nama' 
+                placeholder='Name' 
                 onChange={(e) => setNama(e.target.value)}
                 className='bg-primary-50 border-2 border-neutral-gray w-71 h-10 rounded-[8px] p-2'
               />

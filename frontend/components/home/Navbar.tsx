@@ -1,68 +1,107 @@
 "use client";
 
-import React from 'react'
+import React, { useState } from 'react';
 import Image from "next/image";
-import { UUID } from "crypto";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/context/UserContext';
-type User = {
-  id: UUID,
-  nama: string,
-  email: string
-}
-
-
 
 const Navbar = () => {
-    const router = useRouter()
-    const { user, setUser } = useUser()
+  const router = useRouter();
+  const { user, setUser } = useUser();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
-    const handleLogOut = () => {
-        localStorage.removeItem("token")
-        setUser(null)
-        router.push("/")
-    }
+  const handleLogOut = () => {
+    localStorage.removeItem("token");
+    setUser(null);
+    router.push("/");
+  };
 
-    
+  const toggleDropdown = () => {
+    setDropdownOpen((prev) => !prev);
+  };
+
   return (
     <div>
-        <nav className="flex justify-between items-center w-full bg-primary-50 px-20 py-2 shadow-lg">
-          <Image src="/Logo.png" alt="Logo" width={62} height={62}/>
+      <nav className="flex justify-between items-center w-full bg-primary-50 px-20 py-2 shadow-lg">
+        {/* Logo */}
+        <Image src="/Logo.png" alt="Logo" width={62} height={62} />
 
-          
-            {user ? (
-                <div className="flex justify-between gap-10 items-center">
-                    <Link href="/about" className="no-underline text-text-default">About</Link>
-                    <Link href="/explore" className="no-underline text-text-default">Explore</Link>
-                    <Link href="/forum" className="no-underline text-text-default">Forum</Link>
-                    <h1 className='text-text-default'>Hello {user.nama}</h1>
-                    <Button 
-                        className='border-primary-500 border-2 rounded-[8px] text-text-default bg-transparent'
-                        onClick={handleLogOut}    
-                    >
-                        <Image src="/log_out.png" width={10} height={10} alt='log_ou'/>
-                    </Button>
+        {user ? (
+          <div className="flex justify-between gap-10 items-center relative">
+            {/* Navigation Links */}
+            <Link
+              href="/ai-feature"
+              className="relative text-text-default no-underline 
+                        after:content-[''] after:absolute after:left-0 after:-bottom-1
+                        after:h-[2px] after:w-0 after:bg-current
+                        after:transition-all after:duration-300 hover:after:w-full"
+            >
+              Dance Detector
+            </Link>
+
+            <Link
+              href="/forum"
+              className="relative text-text-default no-underline 
+                        after:content-[''] after:absolute after:left-0 after:-bottom-1
+                        after:h-[2px] after:w-0 after:bg-current
+                        after:transition-all after:duration-300 hover:after:w-full"
+            >
+              Forum
+            </Link>
+
+            <Link
+              href="/class"
+              className="relative text-text-default no-underline 
+                        after:content-[''] after:absolute after:left-0 after:-bottom-1
+                        after:h-[2px] after:w-0 after:bg-current
+                        after:transition-all after:duration-300 hover:after:w-full"
+            >
+              Class
+            </Link>
+
+            {/* Dropdown (Click) */}
+            <div className="relative">
+              <button
+                onClick={toggleDropdown}
+                className="text-text-default cursor-pointer focus:outline-none"
+              >
+                Hello {user.nama}
+              </button>
+
+              {dropdownOpen && (
+                <div className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg z-50">
+                  <Link
+                    href="/profile"
+                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                    onClick={() => setDropdownOpen(false)}
+                  >
+                    Profile
+                  </Link>
+                  <button
+                    onClick={handleLogOut}
+                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+                  >
+                    Log Out
+                  </button>
                 </div>
-            )
-
-            : (
-                <Button 
-                className="border-primary-500 border-2 rounded-[8px] text-text-default bg-transparent 
-                hover:scale-115 transition-all ease-in-out duration-200"
-                >
-                    <Link href="/login" className="no-underline text-text-default">
-                    Log In
-                    </Link>
-                </Button>
-            )}
-            
-          
-        </nav>
+              )}
+            </div>
+          </div>
+        ) : (
+          <Button
+            className="border-primary-500 border-2 rounded-[8px] text-text-default bg-transparent 
+                       hover:scale-115 transition-all ease-in-out duration-200"
+          >
+            <Link href="/login" className="no-underline text-text-default">
+              Log In
+            </Link>
+          </Button>
+        )}
+      </nav>
     </div>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

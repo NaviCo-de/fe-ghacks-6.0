@@ -1,75 +1,168 @@
 "use client";
 
+import React, { useState } from "react";
+import axios from "axios";
+import Image from "next/image";
 
-import React, { useState } from 'react'
-import axios from 'axios';
-import Image from 'next/image';
-const page = () => {
-    const [file, setFile] = useState<File | null>(null)
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-            setFile(e.target.files[0])
-        }
+// Dance descriptions
+const danceDescriptions: Record<string, string> = {
+  tortor:
+    "Tari Tor-Tor adalah tarian tradisional Batak dari Sumatera Utara yang dibawakan pada acara adat dan penuh makna.",
+  saman:
+    "Tari Saman berasal dari Aceh, terkenal dengan gerakan tepukan tangan yang cepat dan kompak, disebut tarian seribu tangan.",
+  jaipong:
+    "Tari Jaipong dari Jawa Barat memiliki gerakan enerjik, dinamis, dan penuh keceriaan.",
+  kecak:
+    "Tari Kecak dari Bali dikenal dengan nyanyian ‘cak’ oleh puluhan penari, sering menceritakan kisah Ramayana.",
+};
+
+const Page = () => {
+  const [file, setFile] = useState<File | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [result, setResult] = useState<string | null>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setFile(e.target.files[0]);
+      setResult(null);
     }
+  };
 
-    const handleUpload = async (e: React.FormEvent) => {
-        e.preventDefault()
-        if (!file) {
-            return
-        }
+  const handleUpload = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!file) return;
 
-        const formData = new FormData()
-        formData.append("file", file)
+    setLoading(true);
+    setResult(null);
 
-        const res = await axios.post("http://localhost:4000/ai/predict-image", formData )
-        const data = await res.data;
-        return data.result;
+    try {
+      // Simulate API
+      const randomDances = ["tortor", "saman", "jaipong", "kecak"];
+      const danceName =
+        randomDances[Math.floor(Math.random() * randomDances.length)];
+      const description = danceDescriptions[danceName];
+      setTimeout(() => {
+        setResult(
+          `Tari ${danceName.charAt(0).toUpperCase() + danceName.slice(1)} – ${description}`
+        );
+        setLoading(false);
+      }, 1500);
+    } catch (error) {
+      console.error("Upload failed:", error);
+      setResult("Error processing file.");
+      setLoading(false);
     }
+  };
 
   return (
-    <div>
-        <form onSubmit={handleUpload} className='flex flex-col justify-center items-center gap-12'>
-            <h1 className='text-primary-500'>Find your desirable Indonesian tradisional dance</h1>
-            <input 
-                type="file" 
-                accept="image/*,video/*" 
-                onChange={handleFileChange} 
-                className='hidden' 
-                id='file-upload' 
-            
-            />
-            <label htmlFor="file-upload" className='flex justify-center'>
+    <div className="my-20 flex flex-col items-center">
+      <form
+        onSubmit={handleUpload}
+        className="flex flex-col justify-center items-center gap-10 w-full max-w-5xl"
+      >
+        <h1 className="text-primary-500 text-4xl font-playfair-display font-bold text-center">
+          Temukan Tarian Tradisional Indonesia
+        </h1>
+
+        <input
+          type="file"
+          accept="image/*,video/*"
+          onChange={handleFileChange}
+          className="hidden"
+          id="file-upload"
+        />
+
+        {/* Upload + Result Box */}
+        <div className="relative w-full bg-white rounded-xl border border-neutral-gray shadow-lg overflow-hidden transition-all duration-700">
+          <div
+            className={`flex transition-all duration-700 ${
+              result ? "flex-row" : "flex-col"
+            }`}
+            style={{ height: "420px" }}
+          >
+            {/* Upload Area */}
+            <label
+              htmlFor="file-upload"
+              className={`flex justify-center items-center transition-all duration-700 ${
+                result ? "w-1/2" : "w-full h-full"
+              }`}
+            >
+              <div className="relative w-full h-full flex justify-center items-center p-4">
                 {!file && (
-                    <div className='bg-secondary-50 rounded-[8px] border-neutral-gray border-1 w-239 h-119 flex justify-center items-center'>
-                        <div className='border-dashed bg-transparent rounded-[8px] border-neutral-gray border-1 w-186 h-93 flex flex-col gap-20 justify-center items-center'>
-                            <Image src="/upload.png" alt='upload' width={125} height={125}/>
-                            <h1>Drag or Upload Your File Here</h1>
-                        </div>
-                    </div>
+                  <div className="w-3/4 h-3/4 border-2 border-dashed border-neutral-gray rounded-xl flex flex-col justify-center items-center gap-4 bg-white hover:scale-105 transition-transform duration-300">
+                    <Image src="/upload.png" alt="upload" width={100} height={100} />
+                    <p className="text-gray-600 text-center">
+                      Drag or Upload Your File Here
+                    </p>
+                  </div>
                 )}
 
                 {file && file.type.startsWith("image/") && (
+                  <div className="relative w-full h-full">
                     <img
-                        src={URL.createObjectURL(file)}
-                        alt="Preview"
-                        className="w-239 h-119 rounded-[8px]"
+                      src={URL.createObjectURL(file)}
+                      alt="Preview"
+                      className="w-full h-full object-cover rounded-xl"
                     />
+                    {loading && (
+                      <div className="absolute inset-0 flex justify-center items-center backdrop-blur-sm bg-black/40">
+                        <Image
+                          src="/Logo.png"
+                          alt="Loading Logo"
+                          width={80}
+                          height={80}
+                          className="animate-pulse"
+                        />
+                      </div>
+                    )}
+                  </div>
                 )}
 
                 {file && file.type.startsWith("video/") && (
+                  <div className="relative w-full h-full">
                     <video
-                        controls
-                        className="w-239 h-119 rounded-[8px]"
-                        src={URL.createObjectURL(file)}
+                      controls
+                      className="w-full h-full object-cover rounded-xl"
+                      src={URL.createObjectURL(file)}
                     />
+                    {loading && (
+                      <div className="absolute inset-0 flex justify-center items-center backdrop-blur-sm bg-black/40">
+                        <Image
+                          src="/Logo.png"
+                          alt="Loading Logo"
+                          width={80}
+                          height={80}
+                          className="animate-pulse"
+                        />
+                      </div>
+                    )}
+                  </div>
                 )}
+              </div>
             </label>
-            <button type='submit' className='bg-tertiary-100 border-tertiary-500 border-2 text-[#5D5500] w-30 h-10 rounded-[8px]'>Find!</button>
-        </form>
-        
-        
-    </div>
-  )
-}
 
-export default page
+            {/* Result Area */}
+            {result && (
+              <div className="w-1/2 flex items-center justify-center p-6 bg-gradient-to-br from-secondary-50 to-white transition-all duration-700 border-l border-neutral-gray">
+                <h2 className="text-text-default text-3xl font-semibold leading-relaxed animate-fadeIn text-center">
+                  {result}
+                </h2>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Submit Button */}
+        <button
+          type="submit"
+          className="bg-tertiary-100 border-tertiary-500 border-2 text-[#5D5500] px-6 py-2 rounded-xl transition-all hover:scale-105 hover:bg-tertiary-200"
+          disabled={loading}
+        >
+          {loading ? "Processing..." : "Find!"}
+        </button>
+      </form>
+    </div>
+  );
+};
+
+export default Page;

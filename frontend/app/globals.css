@@ -68,6 +68,34 @@
   --color-tertiary-500: #cfc240;
 
   --color-text-default: #5d3146;
+
+  --text-b1: 64px;
+  --text-b2: 48px;
+  --text-b3: 36px;
+  --text-b4: 30px;
+  --text-b5: 24px;
+  --text-b6: 20px;
+  --text-b7: 16px;
+  --text-b8: 14px;
+  --text-b9: 12px;
+
+  --text-s1: 64px;
+  --text-s2: 48px;
+  --text-s3: 36px;
+  --text-s4: 30px;
+  --text-s5: 24px;
+  --text-s6: 20px;
+  --text-s7: 16px;
+
+  --text-h1: 64px;
+  --text-h2: 48px;
+  --text-h3: 36px;
+  --text-h4: 30px;
+  --text-h5: 16px;
+
+  --font-reddit-sans: 'Reddit Sans', sans-serif;
+  --font-playfair-display: 'Playfair Display', serif;
+  --font-lora: 'Lora', serif;
 }
 
 :root {

@@ -41,13 +41,13 @@ const page = () => {
   }
 
   return (
-    <div className='flex justify-center bg-[url(/bg-image.png)] bg-repeat bg-contain bg-center'>
-      <div className='flex flex-col justify-center items-center gap-20 bg-secondary-50 w-200 h-159 my-10'>
+    <div className='flex justify-center'>
+      <div className='flex flex-col justify-center items-center gap-20 bg-secondary-50 w-200 h-159 my-10 border-neutral-gray border-2 rounded-[8px] shadow-lg'>
         <div className='flex items-center'>
           <Image src="/Logo_nama.png" alt="Logo_nama" width={120} height={120}/>
-          <div>
-            <p>Dari seniman untuk rakyat,</p>
-            <p>Menarilah bersama dengan <span>Juita</span></p>
+          <div className='text-text-default text-s4 font-reddit-sans'>
+            <p>By the artist, for the people</p>
+            <p>Come dance with <span className='font-playfair-display font-semibold'>Juita</span></p>
           </div>
         </div>
 

@@ -60,9 +60,9 @@ const page = () => {
         fetchPosts();
     })
   return (
-    <div className='my-15 bg-[url(/bg-image.png)] bg-repeat bg-contain bg-center'>
+    <div className='my-15'>
         <div className='flex justify-center gap-3'>
-            <div className='bg-secondary-50 border-neutral-gray border-1 rounded-[8px] max-h-[400px] w-50 px-5 py-3'>
+            <div className='bg-secondary-50 border-neutral-gray border-1 rounded-[8px] max-h-[400px] w-50 px-5 py-3 shadow-lg'>
                 <div className='flex gap-2'>
                     <Image src="/filter.png" alt='filter' width={30} height={30}/>
                     <p>Filter By</p>
@@ -114,7 +114,7 @@ const page = () => {
 
             <div className='flex flex-col gap-5'>
                 
-                <form className='flex flex-col items-end gap-3 w-200 px-7 py-5 bg-secondary-50 border-neutral-gray border-1 rounded-[8px]' onSubmit={handlePost}>
+                <form className='flex flex-col items-end gap-3 w-200 px-7 py-5 bg-secondary-50 border-neutral-gray border-1 rounded-[8px] shadow-lg' onSubmit={handlePost}>
                     <div className='flex justify-center items-center gap-5 w-full'>
                         <Image src={user?.fotoProfil || "/profil.png"} alt='foto-profil' width={55} height={55}/>
                         <input 
@@ -133,17 +133,17 @@ const page = () => {
 
                 
                 {collection.length === 0 && (
-                    <div className='flex justify-center bg-secondary-50 border-neutral-gray border-1 rounded-[8px] w-200 px-7 py-5'>
+                    <div className='flex justify-center bg-secondary-50 border-neutral-gray border-1 rounded-[8px] w-200 px-7 py-5 shadow-lg'>
                         <p>Belum ada postingan</p>
                     </div>
                 )}
                 {collection.map((item) => (
-                    <div className='bg-secondary-50 border-neutral-gray border-1 rounded-[8px] w-200 px-7 py-5 flex flex-col justify-center items-start gap-3' key={item.id}>
+                    <div className='bg-secondary-50 border-neutral-gray border-1 rounded-[8px] w-200 px-7 py-5 flex flex-col justify-center items-start gap-3 shadow-lg' key={item.id}>
                         <div className='flex items-center gap-2'>
                             <Image src={user?.fotoProfil || "/profil.png"} alt='foto-profil' width={55} height={55}/>
                             <div className='flex flex-col gap-1'>
-                                <p>{item.writer?.nama}</p>
-                                <p>
+                                <p className='text-b7 font-reddit-sans'>{item.writer?.nama}</p>
+                                <p className='text-b8 text-neutral-gray font-reddit-sans'>
                                     {new Date(item.tanggalDibuat).toLocaleDateString("en-GB", {
                                         day: "2-digit",
                                         month: "long",
