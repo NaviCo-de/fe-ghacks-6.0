@@ -22,11 +22,11 @@ type User = {
   email: string;
 };
 
-const placeholder = [
-  "TARI JAIPONG",
-  "TARI SAMAN",
-  "TARI KECAK",
-  "TARI TOR TOR",
+const IMAGE = [
+  "/tortor.png",
+  "/jaipong.png",
+  "/kecak.png",
+  "/jaipong1.png",
 ];
 
 export default function Home() {
@@ -73,14 +73,19 @@ export default function Home() {
           ]}
         >
           <CarouselContent>
-            {Array.from({ length: 5 }).map((_, index) => (
+            {IMAGE.map((img, index) => (
               <CarouselItem key={index}>
                 <div className="p-1">
                   <Card>
-                    <CardContent className="flex items-center justify-center h-60 p-6 bg-primary-50">
-                      <span className="text-3xl font-bold text-text-default">
-                        {placeholder[index % placeholder.length]}
-                      </span>
+                    <CardContent className="flex items-center justify-center p-0 h-80 bg-primary-50">
+                      <div className="relative w-full h-80">
+                        <Image
+                          src={img}
+                          alt={`Dance ${index + 1}`}
+                          fill
+                          className="object-contain rounded-md"
+                        />
+                      </div>
                     </CardContent>
                   </Card>
                 </div>
@@ -143,7 +148,7 @@ export default function Home() {
               alt="Forum"
               width={500}
               height={300}
-              className="rounded-lg shadow-lg"
+              className="rounded-lg shadow-lg object-cover"
             />
           </div>
         </div>
@@ -171,7 +176,7 @@ export default function Home() {
               alt="AI Feature"
               width={500}
               height={300}
-              className="rounded-lg shadow-lg"
+              className="rounded-lg shadow-lg object-cover"
             />
           </div>
         </div>
@@ -195,11 +200,11 @@ export default function Home() {
           </div>
           <div className="md:w-1/2 flex justify-center">
             <Image
-              src="/sanggar-banner.png"
+              src="/foto3.png"
               alt="Sanggar Tari"
               width={500}
               height={300}
-              className="rounded-lg shadow-lg"
+              className="rounded-lg shadow-lg object-cover"
             />
           </div>
         </div>
