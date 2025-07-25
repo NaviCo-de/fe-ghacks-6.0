@@ -69,7 +69,7 @@ const Page = () => {
         className="flex flex-col justify-center items-center gap-10 w-full max-w-5xl"
       >
         <h1 className="text-primary-500 text-4xl font-playfair-display font-bold text-center">
-          Temukan Tarian Tradisional Indonesia
+          Find your desirable Indonesian traditional dance
         </h1>
 
         <input

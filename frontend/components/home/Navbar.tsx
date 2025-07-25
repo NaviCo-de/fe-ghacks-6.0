@@ -30,15 +30,25 @@ const Navbar = () => {
 
         {user ? (
           <div className="flex justify-between gap-10 items-center relative">
-            {/* Navigation Links */}
+            
+            <Link
+              href="/class"
+              className="relative text-text-default no-underline 
+                        after:content-[''] after:absolute after:left-0 after:-bottom-1
+                        after:h-[2px] after:w-0 after:bg-current
+                        after:transition-all after:duration-300 hover:after:w-full font-lora"
+            >
+              Class
+            </Link>
+
             <Link
               href="/ai-feature"
               className="relative text-text-default no-underline 
                         after:content-[''] after:absolute after:left-0 after:-bottom-1
                         after:h-[2px] after:w-0 after:bg-current
-                        after:transition-all after:duration-300 hover:after:w-full"
+                        after:transition-all after:duration-300 hover:after:w-full font-lora"
             >
-              Dance Detector
+              Explore
             </Link>
 
             <Link
@@ -46,26 +56,18 @@ const Navbar = () => {
               className="relative text-text-default no-underline 
                         after:content-[''] after:absolute after:left-0 after:-bottom-1
                         after:h-[2px] after:w-0 after:bg-current
-                        after:transition-all after:duration-300 hover:after:w-full"
+                        after:transition-all after:duration-300 hover:after:w-full font-lora"
             >
               Forum
             </Link>
 
-            <Link
-              href="/class"
-              className="relative text-text-default no-underline 
-                        after:content-[''] after:absolute after:left-0 after:-bottom-1
-                        after:h-[2px] after:w-0 after:bg-current
-                        after:transition-all after:duration-300 hover:after:w-full"
-            >
-              Class
-            </Link>
+            
 
-            {/* Dropdown (Click) */}
+            
             <div className="relative">
               <button
                 onClick={toggleDropdown}
-                className="text-text-default cursor-pointer focus:outline-none"
+                className="text-primary-50 bg-primary-500 w-20 h-10 rounded-[8px] font-lora"
               >
                 Hello {user.nama}
               </button>
