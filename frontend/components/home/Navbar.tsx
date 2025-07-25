@@ -7,6 +7,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useUser } from '@/context/UserContext';
 type User = {
   id: UUID,
   nama: string,
@@ -17,7 +18,7 @@ type User = {
 
 const Navbar = () => {
     const router = useRouter()
-    const [user, setUser] = useState<User | null>(null)
+    const { user, setUser } = useUser()
 
     const handleLogOut = () => {
         localStorage.removeItem("token")
@@ -25,20 +26,14 @@ const Navbar = () => {
         router.push("/")
     }
 
-    useEffect(() => {
-        const savedUser = localStorage.getItem("user");
-        if (savedUser) {
-        const user = JSON.parse(savedUser);
-        setUser(user); // Store in state
-        }
-    }, []);
+    
   return (
     <div>
         <nav className="flex justify-between items-center w-full bg-primary-50 px-20 py-2 shadow-lg">
           <Image src="/Logo.png" alt="Logo" width={62} height={62}/>
 
           
-            {user && (
+            {user ? (
                 <div className="flex justify-between gap-10 items-center">
                     <Link href="/about" className="no-underline text-text-default">About</Link>
                     <Link href="/explore" className="no-underline text-text-default">Explore</Link>
@@ -51,9 +46,9 @@ const Navbar = () => {
                         <Image src="/log_out.png" width={10} height={10} alt='log_ou'/>
                     </Button>
                 </div>
-            )}
+            )
 
-            {!user && (
+            : (
                 <Button 
                 className="border-primary-500 border-2 rounded-[8px] text-text-default bg-transparent 
                 hover:scale-115 transition-all ease-in-out duration-200"

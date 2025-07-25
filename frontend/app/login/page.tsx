@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { useUser } from '@/context/UserContext';
 
 const page = () => {
   const router = useRouter();
@@ -14,6 +15,8 @@ const page = () => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [error, setError] = useState<string>('');
+
+  const { setUser } = useUser()
 
   const Login = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -25,6 +28,8 @@ const page = () => {
 
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
+
+      setUser(user)
 
       router.push("/")
     } catch (err: any) {
