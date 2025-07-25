@@ -4,15 +4,15 @@ import React, { useState } from "react";
 import axios from "axios";
 import Image from "next/image";
 
-// Dance descriptions
+// Deskripsi tarian
 const danceDescriptions: Record<string, string> = {
-  tortor:
+  "tor-tor":
     "Tari Tor-Tor adalah tarian tradisional Batak dari Sumatera Utara yang dibawakan pada acara adat dan penuh makna.",
-  saman:
-    "Tari Saman berasal dari Aceh, terkenal dengan gerakan tepukan tangan yang cepat dan kompak, disebut tarian seribu tangan.",
-  jaipong:
+  "saman":
+    "Saman Dance is a traditional dance from the Gayo people in Aceh, Indonesia, known for its fast, synchronized movements performed while sitting in tight rows, without any musical instruments—the rhythm comes entirely from claps, chest slaps, and the singers' voices. Interestingly, it’s often called the “dance of a thousand hands” because the dancers move so precisely and swiftly that it creates the illusion of countless hands moving at once. Originally, the dance was also used as a medium for Islamic preaching, with lyrics that carry moral and religious messages. In 2011, UNESCO recognized Saman Dance as an Intangible Cultural Heritage in Need of Urgent Safeguarding—a reminder of how powerful unity and tradition can be.",
+  "jaipong":
     "Tari Jaipong dari Jawa Barat memiliki gerakan enerjik, dinamis, dan penuh keceriaan.",
-  kecak:
+  "kecak":
     "Tari Kecak dari Bali dikenal dengan nyanyian ‘cak’ oleh puluhan penari, sering menceritakan kisah Ramayana.",
 };
 
@@ -36,20 +36,28 @@ const Page = () => {
     setResult(null);
 
     try {
-      // Simulate API
-      const randomDances = ["tortor", "saman", "jaipong", "kecak"];
-      const danceName =
-        randomDances[Math.floor(Math.random() * randomDances.length)];
-      const description = danceDescriptions[danceName];
-      setTimeout(() => {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      // Hit API backend NestJS
+      const res = await axios.post("http://localhost:4000/ai/predict-image", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      const danceName = res.data?.result?.toLowerCase(); // Sesuaikan dengan respons backend
+      if (danceName && danceDescriptions[danceName]) {
         setResult(
-          `Tari ${danceName.charAt(0).toUpperCase() + danceName.slice(1)} – ${description}`
+          `Tari ${danceName.charAt(0).toUpperCase() + danceName.slice(1)} – ${danceDescriptions[danceName]}`
         );
-        setLoading(false);
-      }, 1500);
+      } else {
+        setResult("Hasil AI tidak dikenali.");
+      }
     } catch (error) {
       console.error("Upload failed:", error);
       setResult("Error processing file.");
+    } finally {
       setLoading(false);
     }
   };
@@ -144,7 +152,7 @@ const Page = () => {
             {/* Result Area */}
             {result && (
               <div className="w-1/2 flex items-center justify-center p-6 bg-gradient-to-br from-secondary-50 to-white transition-all duration-700 border-l border-neutral-gray">
-                <h2 className="text-text-default text-3xl font-semibold leading-relaxed animate-fadeIn text-center">
+                <h2 className="text-text-default text-b7 font-semibold leading-relaxed animate-fadeIn text-center">
                   {result}
                 </h2>
               </div>
