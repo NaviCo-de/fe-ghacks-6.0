@@ -35,7 +35,7 @@ const page = () => {
     } catch (err: any) {
       if (axios.isAxiosError(err) && err.response) {
         const errorMessage = err.response.data.message;
-        setError(errorMessage)
+        setError(errorMessage)  
       }
     }
   }

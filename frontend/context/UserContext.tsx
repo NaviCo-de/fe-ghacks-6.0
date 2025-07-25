@@ -7,7 +7,8 @@ import { UUID } from 'crypto';
 type User = {
     id: UUID;
     nama: string;
-    email: string
+    email: string;
+    fotoProfil: string;
 };
 
 type UserContextType = {
